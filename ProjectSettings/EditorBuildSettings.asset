@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Nav_Mesh.unity
+    guid: e8a7132626b414d4ea6ac5476ba0b22e
+  - enabled: 1
+    path: Assets/Scenes/Steering_Behaviors.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

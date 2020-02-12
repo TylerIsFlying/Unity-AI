@@ -13,8 +13,11 @@ public class Seek : MonoBehaviour
 
     void Update()
     {
-        Vector3 v = (target.position - transform.position).normalized * ag.maxVelocity;
-        Vector3 force = v - ag.velocity;
-        ag.Steer(force);
+        if(target != null)
+        {
+            Vector3 v = (target.position - transform.position).normalized * ag.maxVelocity;
+            Vector3 force = v - ag.velocity;
+            ag.Steer(force);
+        }
     }
 }
