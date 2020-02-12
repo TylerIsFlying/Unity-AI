@@ -23,7 +23,7 @@ public class Flee : MonoBehaviour
             Vector3 vectorToMe = transform.position - target.position;
             float dist = vectorToMe.magnitude;
             weight = fleeCurve.Evaluate(Mathf.InverseLerp(disiredDistance, 0, dist));
-            ag.Steer(force);
+            ag.Steer(force * weight);
         }
         else
         {

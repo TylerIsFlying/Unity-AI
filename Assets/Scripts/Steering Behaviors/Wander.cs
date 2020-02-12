@@ -9,6 +9,7 @@ public class Wander : MonoBehaviour
     Vector3 target;
     Agent ag;
     Vector3 jitt;
+    float timer;
     void Start()
     {
         ag = GetComponent<Agent>();
@@ -17,14 +18,12 @@ public class Wander : MonoBehaviour
 
     void Update()
     {
+        timer -= Time.deltaTime;
+        if (timer <= 0 || Vector3.Distance(transform.position,target) < range)
+            SetTarget();
         Vector3 v = (target - transform.position).normalized * ag.maxVelocity;
         Vector3 force = v - ag.velocity;
         ag.Steer(force);
-        if (Vector3.Distance(target, transform.position) < range)
-        {
-            //Debug.Log("Yes");
-            SetTarget();
-        }
     }
     private void OnDrawGizmos()
     {
@@ -37,5 +36,6 @@ public class Wander : MonoBehaviour
         Vector3 tPoint = Random.onUnitSphere * range;
         jitt = new Vector3(Random.Range(-jitterRange, jitterRange) + tPoint.x, transform.position.y-1, Random.Range(-jitterRange, jitterRange) + tPoint.z);
         target = (transform.position + transform.forward) + jitt;
+        timer = Random.Range(1, 3f);
     }
 }
