@@ -12,19 +12,12 @@ public class Nav_Travel_Advance : MonoBehaviour
     public GameObject objectUsedForMouse;
     int adder;
     Vector3 hits;
-    Seek seekMe;
-    Agent ag;
-    GameObject o;
     void Start()
     {
         myAgent = GetComponent<NavMeshAgent>();
         path = new NavMeshPath();
         adder = 0;
         hits = Vector3.zero;
-        seekMe = GetComponent<Seek>();
-        ag = GetComponent<Agent>();
-        o = new GameObject();
-        seekMe.target = o.transform;
     }
 
     // Update is called once per frame
@@ -46,8 +39,8 @@ public class Nav_Travel_Advance : MonoBehaviour
         {
             try
             {
-                o.transform.position = path.corners[adder];
-                if (Vector3.Distance(transform.position, path.corners[adder]) < 1 && adder < path.corners.Length - 1)
+                transform.position = Vector3.MoveTowards(transform.position,path.corners[adder],speed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, path.corners[adder]) <= 1 && adder < path.corners.Length - 1)
                     adder++;
             }
             catch (System.IndexOutOfRangeException e)
@@ -60,8 +53,16 @@ public class Nav_Travel_Advance : MonoBehaviour
         {
             for (int i = 0; i < path.corners.Length - 1; i++)
             {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawCube(path.corners[i], new Vector3(1,1,1));
+                if (Vector3.Distance(transform.position, path.corners[i]) <= 1)
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawCube(path.corners[i], new Vector3(1, 1, 1));
+                }
+                else
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawCube(path.corners[i], new Vector3(1, 1, 1));
+                }
             }
         }
     }
