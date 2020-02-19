@@ -21,25 +21,95 @@ public class AStar : MonoBehaviour
     private A_Node currentNode = null;
     public bool showPath = true;
     public float speed = 1.5f;
-    private int nextPath;
+    private int nextPath = -1;
 
 
     void Start()
     {
-        CreatePath();
     }
     void CreatePath()
     {
         targetNode = null;
         startNode = null;
-        nodes.Clear();
-        openList.Clear();
-        closedList.Clear();
-        path.Clear();
+        //RemoveAll(nodes);
+        RemoveAll(openList);
+        RemoveAll(closedList);
+        RemoveAll(path);
         currentNode = null;
-        MakeNodes();
+        startNode = null;
+        targetNode = null;
+        if(nodes.Count > 0)
+        {
+            ReValueNodes();
+        }
+        else
+        {
+            MakeNodes();
+        }
         LookForPath();
         nextPath = path.Count - 1;
+    }
+    void RemoveAll(List<A_Node> val)
+    {
+        for(int i = 0; i < val.Count; i++)
+        {
+            val.Remove(val[i]);
+        }
+    }
+    void ReValueNodes()
+    {
+        Collider[] coll;
+        bool waitForNext = false;
+        bool doPlayerOnce = false;
+        bool doTargetOnce = false;
+        Vector3 lastNodePos = Vector3.zero;
+        foreach (A_Node node in nodes)
+        {
+            coll = Physics.OverlapBox(node.position, sizeOfBox / 2);
+            foreach (Collider col in coll)
+            {
+                foreach (string tag in tags)
+                {
+                    if (col.gameObject.CompareTag(tag) && !waitForNext)
+                    {
+                        node.g_score = 2;
+                        waitForNext = true;
+                    }
+                }
+                if (col.gameObject.CompareTag(this.gameObject.tag) && !waitForNext)
+                {
+                    if (!doPlayerOnce)
+                    {
+                        node.g_score = 0;
+                        startNode = node;
+                        waitForNext = true;
+                        doPlayerOnce = true;
+                        transform.position = node.position;
+                    }
+                }
+                if (col.gameObject.CompareTag(target.gameObject.tag) && !waitForNext)
+                {
+                    if (!doTargetOnce)
+                    {
+                        node.g_score = -1;
+                        targetNode = node;
+                        waitForNext = true;
+                        doTargetOnce = true;
+                        transform.position = node.position;
+                    }
+                }
+            }
+            if (!waitForNext)
+            {
+                node.g_score = 1;
+            }
+            node.pastNode = null;
+            waitForNext = false;
+        }
+        foreach(A_Node node in nodes)
+        {
+            node.h_score = (node.position.x + targetNode.position.x) + (node.position.z + targetNode.position.z);
+        }
     }
     void Update()
     {
@@ -50,15 +120,19 @@ public class AStar : MonoBehaviour
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                target.transform.position = hit.point;
+                target.transform.position = new Vector3(hit.point.x,size.y,hit.point.z);
                 CreatePath();
             }
         }
-        if (nextPath >= 0)
+        if (nextPath >= 0 && nodes.Count > 0)
         {
-            transform.position = Vector3.MoveTowards(transform.position, path[nextPath].position, speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path[nextPath].position) < 0.5f)
-                nextPath--;
+            try
+            {
+                transform.position = Vector3.MoveTowards(transform.position, path[nextPath].position, speed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, path[nextPath].position) < 0.5f)
+                    nextPath--;
+            }
+            catch (System.ArgumentOutOfRangeException) { }
         }
     }
     void SortNodes(List<A_Node> items)
@@ -242,13 +316,6 @@ public class AStar : MonoBehaviour
             if (tmp != null)
                 node.connections.Add(tmp);
             nodeCounter++;
-        }
-    }
-    void RemoveNodes()
-    {
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            nodes.Remove(nodes[i]);
         }
     }
     private void OnDrawGizmos()
