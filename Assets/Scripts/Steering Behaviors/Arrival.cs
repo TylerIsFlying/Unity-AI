@@ -7,10 +7,10 @@ public class Arrival : MonoBehaviour
     public Transform target;
     public float range;
     public float rangeToStop;
-    Agent ag;
+    Agents ag;
     void Start()
     {
-        ag = GetComponent<Agent>();
+        ag = GetComponent<Agents>();
     }
 
     void Update()

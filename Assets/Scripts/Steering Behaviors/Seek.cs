@@ -5,10 +5,10 @@ using UnityEngine;
 public class Seek : MonoBehaviour
 {
     public Transform target; // target for the ai to steer towards
-    Agent ag;
+    Agents ag;
     void Start()
     {
-        ag = GetComponent<Agent>();
+        ag = GetComponent<Agents>();
     }
 
     void Update()

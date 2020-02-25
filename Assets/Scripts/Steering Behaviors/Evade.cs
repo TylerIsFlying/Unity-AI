@@ -6,12 +6,12 @@ public class Evade : MonoBehaviour
 {
     public Transform target; // target for the ai to steer towards
     public float range;
-    Agent ag;
-    Agent targetAgent;
+    Agents ag;
+    Agents targetAgent;
     void Start()
     {
-        ag = GetComponent<Agent>();
-        targetAgent = target.gameObject.GetComponent<Agent>();
+        ag = GetComponent<Agents>();
+        targetAgent = target.gameObject.GetComponent<Agents>();
     }
 
     void Update()

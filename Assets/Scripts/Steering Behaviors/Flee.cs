@@ -8,10 +8,10 @@ public class Flee : MonoBehaviour
     public float disiredDistance; // will stop after it reaches that distance
     public float weight;
     public AnimationCurve fleeCurve;
-    Agent ag;
+    Agents ag;
     void Start()
     {
-        ag = GetComponent<Agent>();
+        ag = GetComponent<Agents>();
     }
 
     void Update()

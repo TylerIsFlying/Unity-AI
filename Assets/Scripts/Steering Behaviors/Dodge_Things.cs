@@ -8,10 +8,10 @@ public class Dodge_Things : MonoBehaviour
     RaycastHit hit;
     public float disiredDistance; // will stop after it reaches that distance
     public int layer;
-    Agent ag;
+    Agents ag;
     void Start()
     {
-        ag = GetComponent<Agent>();
+        ag = GetComponent<Agents>();
     }
 
     void Update()

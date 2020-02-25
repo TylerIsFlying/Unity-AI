@@ -49,8 +49,8 @@ public class Boids : MonoBehaviour
             v2 = Rule2(b);
             v3 = Rule3(b);
            // v4 = BoundPosition(b);
-            b.GetComponent<Agent>().velocity = Vector3.ClampMagnitude(b.GetComponent<Agent>().velocity + v1 + v2 + v3, b.GetComponent<Agent>().maxVelocity);
-            b.transform.position =  b.transform.position + b.GetComponent<Agent>().velocity;
+            b.GetComponent<Agents>().velocity = Vector3.ClampMagnitude(b.GetComponent<Agents>().velocity + v1 + v2 + v3, b.GetComponent<Agents>().maxVelocity);
+            b.transform.position =  b.transform.position + b.GetComponent<Agents>().velocity;
             b.transform.position = BoundPosition(b);
         }
     }
@@ -89,11 +89,11 @@ public class Boids : MonoBehaviour
         {
             if(b != a)
             {
-                pv = pv + b.GetComponent<Agent>().velocity;
+                pv = pv + b.GetComponent<Agents>().velocity;
             }
         }
         pv = pv / (boidsAmount - 1);
-        return (pv - a.GetComponent<Agent>().velocity).normalized; // do somethin latter ok :)
+        return (pv - a.GetComponent<Agents>().velocity).normalized; // do somethin latter ok :)
     }
     public void LimitVelocity(GameObject b)
     {

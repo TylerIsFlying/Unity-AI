@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Agent : MonoBehaviour
+public class Agents : MonoBehaviour
 {
     [HideInInspector]
     public Vector3 velocity;

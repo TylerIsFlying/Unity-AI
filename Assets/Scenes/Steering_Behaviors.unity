@@ -320,7 +320,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 5.27e-43, y: 4.9001914e-10, z: 5.27e-43, w: -3.774345e+12}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 1700550311}
   - component: {fileID: 1700550312}
   - component: {fileID: 1700550313}
+  - component: {fileID: 1700550314}
   m_Layer: 0
   m_Name: AI
   m_TagString: AI
@@ -644,7 +645,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700550304}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa55cd6a4474a3244a3abada1a35da98, type: 3}
   m_Name: 
@@ -667,6 +668,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 1
   jitterRange: 3
+--- !u!114 &1700550314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700550304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb16b53dbffc8634eaa24fd305cfa7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disiredDistance: 3
+  layer: 0
 --- !u!1 &2076438256
 GameObject:
   m_ObjectHideFlags: 0

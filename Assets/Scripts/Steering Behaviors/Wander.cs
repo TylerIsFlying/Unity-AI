@@ -7,12 +7,12 @@ public class Wander : MonoBehaviour
     public float range;
     public float jitterRange;
     Vector3 target;
-    Agent ag;
+    Agents ag;
     Vector3 jitt;
     float timer;
     void Start()
     {
-        ag = GetComponent<Agent>();
+        ag = GetComponent<Agents>();
         SetTarget();
     }
 

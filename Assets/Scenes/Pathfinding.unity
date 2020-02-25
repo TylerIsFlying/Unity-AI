@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 711498591}
-  size: {x: 20, y: 1, z: 20}
+  size: {x: 20.16, y: 1, z: 20}
   sizeOfBox: {x: 1, y: 1, z: 1}
   tags: []
   target: {fileID: 92870270}
@@ -1006,13 +1006,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c8137326e95014d9868cadb81df168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags: []
-  size: {x: 20, y: 1, z: 20}
+  tags:
+  - Wall
+  camera: {fileID: 711498591}
+  size: {x: 10.4, y: 1, z: 9.3}
   boxSize: {x: 1, y: 1, z: 1}
   target: {fileID: 92870270}
   startValue: 0
   endValue: 0
-  avoidValue: 2
+  avoidValue: 30
   baseValue: 1
 --- !u!1 &1374119438
 GameObject:
