@@ -1009,6 +1009,7 @@ MonoBehaviour:
   tags:
   - Wall
   camera: {fileID: 711498591}
+  speed: 3
   size: {x: 10.4, y: 1, z: 9.3}
   boxSize: {x: 1, y: 1, z: 1}
   target: {fileID: 92870270}

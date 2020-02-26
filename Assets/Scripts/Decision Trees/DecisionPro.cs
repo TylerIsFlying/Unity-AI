@@ -5,7 +5,13 @@ using UnityEngine;
 public class DecisionPro : MonoBehaviour
 {
     private IDecision currentNode = null;
-    public static IDecision startNode = null;
+    [HideInInspector]
+    public IDecision startNode = null;
+    private void Start()
+    {
+        startNode = new Sample_Decision();
+        startNode.SetNode(new MovinTowardsWayPoint(), new MakinANewPoint());
+    }
     void Update()
     {
         if(startNode != null)

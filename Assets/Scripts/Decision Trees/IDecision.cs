@@ -1,18 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public struct INode
 {
     public IDecision falseNode;
     public IDecision trueNode;
 }
-public class IDecision : ScriptableObject
+public class IDecision
 {
-    public string ID = "";
-    public int falseInt = 0;
-    public int trueInt = 0;
-    public bool starting = false;
     private INode node;
     public virtual void MakeDecision() {}
     public virtual bool CheckBool() { return false; } // returns true or false based on your action

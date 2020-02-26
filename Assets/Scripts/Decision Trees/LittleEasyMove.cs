@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class LittleEasyMove : MonoBehaviour
 {
     public GameObject target;
