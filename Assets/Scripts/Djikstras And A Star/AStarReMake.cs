@@ -14,12 +14,12 @@ public class AStarReMake : MonoBehaviour
     public float endValue = 0;
     public float avoidValue = 30;
     public float baseValue = 1;
-    private List<Node> nodes = new List<Node>();
-    private Node startNode = null;
-    private Node endNode = null;
-    private List<Node> path = new List<Node>();
-    private List<Node> open = new List<Node>();
-    private List<Node> closed = new List<Node>();
+    private List<A_R_Node> nodes = new List<A_R_Node>();
+    private A_R_Node startNode = null;
+    private A_R_Node endNode = null;
+    private List<A_R_Node> path = new List<A_R_Node>();
+    private List<A_R_Node> open = new List<A_R_Node>();
+    private List<A_R_Node> closed = new List<A_R_Node>();
     private int pathAdder = -1;
     void Start()
     {
@@ -54,7 +54,7 @@ public class AStarReMake : MonoBehaviour
         {
             for (float j = -size.z; j < size.z; j++)
             {
-                nodes.Add(new Node(baseValue,new Vector3(i,size.y,j)));
+                nodes.Add(new A_R_Node(baseValue,new Vector3(i,size.y,j)));
             }
         }
         CreateConnections();
@@ -65,7 +65,7 @@ public class AStarReMake : MonoBehaviour
         int nodeCounter = 0;
         for(int i = 0; i < nodes.Count; i++)
         {
-            Node tmp = FindNode(new Vector3(nodes[i].position.x, nodes[i].position.y, nodes[i].position.z - 1));
+            A_R_Node tmp = FindNode(new Vector3(nodes[i].position.x, nodes[i].position.y, nodes[i].position.z - 1));
             if (tmp != null)
                 nodes[i].connections.Add(tmp);
             tmp = FindNode(new Vector3(nodes[i].position.x, nodes[i].position.y, nodes[i].position.z + 1));
@@ -86,7 +86,7 @@ public class AStarReMake : MonoBehaviour
         FindPath();
     }
     // Finds the node
-    Node FindNode(Vector3 value)
+    A_R_Node FindNode(Vector3 value)
     {
         for(int i = 0; i < nodes.Count; i++)
         {
@@ -96,9 +96,9 @@ public class AStarReMake : MonoBehaviour
         return null;
     }
     // gets the nearest node towards the player position
-    Node GetNearestNode(Vector3 position)
+    A_R_Node GetNearestNode(Vector3 position)
     {
-        Node node = null;
+        A_R_Node node = null;
         float dst = 0;
         if (nodes.Count > 0)
         {
@@ -151,7 +151,7 @@ public class AStarReMake : MonoBehaviour
             nodes[i].h = (nodes[i].position.x + endNode.position.x) + (nodes[i].position.z + endNode.position.z);
         }
     }
-    bool isClosesd(Node value)
+    bool isClosesd(A_R_Node value)
     {
         for (int i = 0; i < closed.Count; i++)
         {
@@ -160,7 +160,7 @@ public class AStarReMake : MonoBehaviour
         }
         return false;
     }
-    bool isOpen(Node value)
+    bool isOpen(A_R_Node value)
     {
         for (int i = 0; i < open.Count; i++)
         {
@@ -172,7 +172,7 @@ public class AStarReMake : MonoBehaviour
     // Calculate all the nodes
     void CalNodes()
     {
-        Node currentNode = startNode;
+        A_R_Node currentNode = startNode;
         bool found = false;
         while(!found)
         {
@@ -203,7 +203,7 @@ public class AStarReMake : MonoBehaviour
             }
         }
     }
-    void SortNodes(List<Node> items)
+    void SortNodes(List<A_R_Node> items)
     {
         if (items.Count > 0)
         {
@@ -219,7 +219,7 @@ public class AStarReMake : MonoBehaviour
                         items[i].CalF();
                         if (items[i + 1].f < items[i].f)
                         {
-                            Node tmp = items[i + 1];
+                            A_R_Node tmp = items[i + 1];
                             items[i + 1] = items[i];
                             items[i] = tmp;
                         }
@@ -238,7 +238,7 @@ public class AStarReMake : MonoBehaviour
         if(!startNode.ignore && !endNode.ignore)
         {
             CalNodes();
-            Node currentNode = endNode;
+            A_R_Node currentNode = endNode;
             while (currentNode != null)
             {
                 path.Add(currentNode);
