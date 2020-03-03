@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24b3cf1aba717c409af42c8c2a2b256, type: 3}
+  m_Name: GetGold
+  m_EditorClassIdentifier: 
+  priority: 2
+  globalMark: 0
+  children:
+  - {fileID: 11400000, guid: e65baa5b62fb41d4a8f934362f6e0c8d, type: 2}
+  - {fileID: 11400000, guid: 8e8e6ddf477ace144a5d800899d025a5, type: 2}
+  script: {fileID: 11500000, guid: d83186ab8a31c464480509d170af6846, type: 3}

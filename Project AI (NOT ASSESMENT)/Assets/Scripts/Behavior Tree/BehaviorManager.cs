@@ -5,5 +5,16 @@ using UnityEngine;
 public class BehaviorManager : MonoBehaviour
 {
     public BehaviorScript behaviorStarter;
-    private IBehavior currentBehavior;
+    private BehaviorScript currentBehavior;
+    void Update()
+    {
+        if (currentBehavior != null)
+        {
+            currentBehavior.GetChildren(out currentBehavior);
+        }
+        else
+        {
+            currentBehavior = behaviorStarter;
+        }
+    }
 }

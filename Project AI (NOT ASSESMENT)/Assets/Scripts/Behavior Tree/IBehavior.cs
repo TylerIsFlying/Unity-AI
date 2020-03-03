@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public interface IBehavior
+public class IBehavior : ScriptableObject
 {
-    bool Execute(GameObject o); // executes the code and return true or false based if it failed or success
+    public virtual bool Execute() { return false; } // executes the code and return true or false based if it failed or success
 }
