@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 425122073}
   - component: {fileID: 425122072}
   - component: {fileID: 425122071}
+  - component: {fileID: 425122075}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -214,6 +215,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &425122075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425122070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed73af35e35e4d40a0dba3685705042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1930030888}
 --- !u!1 &960923771
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +551,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1878268340}
   - component: {fileID: 1878268339}
-  - component: {fileID: 1878268341}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -554,16 +567,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1878268338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c298789b5c3485408092eeca983ec3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7efb367712caaeb4d8b441ad7838ba56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseValue: 1
-  usedValue: 0
-  range: 0.5
-  showArea: 0
-  min: {x: -9.97, y: 0, z: -9.57}
-  max: {x: 9.75, y: 10, z: 10.2}
-  boxSize: {x: 1, y: 1, z: 1}
+  gridWorldSize: {x: 20, y: 20}
+  nodeRadius: 0.5
+  distance: 0
+  ignoreTags: []
 --- !u!4 &1878268340
 Transform:
   m_ObjectHideFlags: 0
@@ -578,20 +588,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1878268341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878268338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c98b7257cdb924a8c314d8824b0c71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviorStarter: {fileID: 11400000, guid: 5512e70544eb7ee4b912f6e9d0932154, type: 2}
-  settings: {fileID: 11400000, guid: 305d83af2b35bd64caeeab1489554f30, type: 2}
 --- !u!1 &1930030888
 GameObject:
   m_ObjectHideFlags: 0
