@@ -70,4 +70,45 @@ public class BehaviorScript : ScriptableObject
             return true;
         }
     }
+    public bool GetChildren(out BehaviorScript currentBehavior, GameObject o, List<string> tags)
+    {
+        if (!checkAll)
+        {
+            foreach (BehaviorScript child in children)
+            {
+                if (child.behavior == null)
+                    CreateBehavior(child);
+                if (child.behavior != null && child.behavior.Execute(o,tags))
+                {
+                    currentBehavior = child;
+                    child.parent = this;
+                    return true;
+                }
+            }
+            if (this.parent != null) currentBehavior = this.parent;
+            else currentBehavior = null;
+            return false;
+        }
+        else
+        {
+            foreach (BehaviorScript child in children)
+            {
+                if (!child.ignore)
+                {
+                    if (child.behavior != null && !child.behavior.Execute(o,tags))
+                    {
+                        child.ignore = true;
+                        if (this.parent != null) currentBehavior = this.parent;
+                        else currentBehavior = null;
+                        return false;
+                    }
+
+                }
+                child.ignore = false;
+            }
+            if (this.parent != null) currentBehavior = this.parent;
+            else currentBehavior = null;
+            return true;
+        }
+    }
 }

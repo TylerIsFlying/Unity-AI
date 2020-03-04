@@ -9,7 +9,7 @@ public class BehaviorSettings : ScriptableObject
     public GameObject prefab = null;
     public Vector3 startPosition = Vector3.zero;
     public int spawnedPrefabs = 0;
-    [Header("Target Settings")]
+    [Header("Targets To Avoid")]
     public List<string> tags;
     [HideInInspector]
     public List<GameObject> objects = new List<GameObject>();

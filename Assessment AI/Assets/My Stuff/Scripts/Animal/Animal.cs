@@ -28,9 +28,21 @@ public class Animal : MonoBehaviour
         timer = timePerLoss;
         if (Pathing.GetInstance() != null) instance = Pathing.GetInstance();
     }
+    public bool PathFound()
+    {
+        if (path.Count > 0)
+            return true;
+        else
+            return false;
+    }
     public void FindPath(GameObject target)
     {
         if (instance != null) path = instance.SetTarget(gameObject, target);
+        pathAdder = 0;
+    }
+    public void FindPath(GameObject target, List<string> tags)
+    {
+        if (instance != null) path = instance.SetTarget(gameObject, target,tags);
         pathAdder = 0;
     }
     public void MoveTowards()
@@ -53,6 +65,13 @@ public class Animal : MonoBehaviour
             water--;
             food--;
             timer = timePerLoss;
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        for(int i = 0; i < path.Count; i++)
+        {
+            Gizmos.DrawWireCube(path[i].position, new Vector3(1, 1, 1));
         }
     }
 }

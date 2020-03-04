@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class MoveAround : MonoBehaviour
 {
-    public Pathing instance;
     public GameObject target;
     private List<Node> path = null;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            path = instance.SetTarget(gameObject,target);
+            path = Pathing.GetInstance().SetTarget(gameObject,target);
         }
     }
     private void OnDrawGizmos()

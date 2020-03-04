@@ -8,14 +8,13 @@ public class Wander : IBehavior
     private GameObject wanderPoint;
     private bool doOnce = false;
     // Getting a new location
-    public void NewLoc(Animal p)
+    public void NewLoc(Animal p, List<string> tags)
     {
-        wanderPoint.transform.position = new Vector3(Random.Range(p.transform.position.x - 5, p.transform.position.x + 5),
-            p.transform.position.y, 
-            Random.Range(p.transform.position.x - 5, p.transform.position.x + 5));
-       p.FindPath(wanderPoint);
+       wanderPoint.transform.position = (Random.insideUnitSphere * 5) + p.transform.position;
+        wanderPoint.transform.position = new Vector3(wanderPoint.transform.position.x, p.transform.position.y, wanderPoint.transform.position.z);
+       p.FindPath(wanderPoint,tags);
     }
-    public override bool Execute(GameObject p)
+    public override bool Execute(GameObject p, List<string> tags)
     {
         if (!Application.isPlaying) doOnce = false;
         Animal ani = p.GetComponent<Animal>();
@@ -23,14 +22,13 @@ public class Wander : IBehavior
         {
             if (!doOnce)
             {
-                wanderPoint = new GameObject("Wander");
+                if(wanderPoint == null) wanderPoint = new GameObject("Wander");
                 doOnce = true;
-                NewLoc(ani);
+                NewLoc(ani,tags);
         }
-            if (Vector3.Distance(p.transform.position, wanderPoint.transform.position) <= 0.5f)
-                NewLoc(ani);
+            if (Vector3.Distance(p.transform.position, wanderPoint.transform.position) <= 1f || !ani.PathFound())
+                NewLoc(ani,tags);
             ani.MoveTowards();
-            
             Debug.DrawLine(p.transform.position, wanderPoint.transform.position);
         }
         return true;

@@ -32,8 +32,16 @@ public class BehaviorManager : MonoBehaviour
                     Behaviors tmp = o.GetComponent<Behaviors>();
                     if (tmp != null)
                     {
-                        if (tmp.currentBehavior != null) tmp.currentBehavior.GetChildren(out tmp.currentBehavior,o);
-                        else tmp.currentBehavior = tmp.behaviorStarter;
+                        if(settings.tags.Count <= 0)
+                        {
+                            if (tmp.currentBehavior != null) tmp.currentBehavior.GetChildren(out tmp.currentBehavior, o);
+                            else tmp.currentBehavior = tmp.behaviorStarter;
+                        }
+                        else
+                        {
+                            if (tmp.currentBehavior != null) tmp.currentBehavior.GetChildren(out tmp.currentBehavior, o, settings.tags);
+                            else tmp.currentBehavior = tmp.behaviorStarter;
+                        }
                     }
                 }
             }
