@@ -31,16 +31,15 @@ public class Pathing : MonoBehaviour
     [Header("Main Settings")]
     public int baseValue = 1; // used for all nodes
     public int usedValue = 0; // used for both end and starting 
-    public float range = 1f;
+    public float range = 1f; // range of the check distance
     [Header("Range Settings")]
-    private List<Node> closed = new List<Node>();
-    private List<Node> open = new List<Node>();
-    private Node startNode = new Node();
-    private Node endNode = new Node();
-    private int unitApart = 1;
-    private PathingManager manager;
-    private bool isUsableAgain = true;
-    private Node[,,] grid;
+    private List<Node> closed = new List<Node>(); // used for the closed list
+    private List<Node> open = new List<Node>(); // used for the open lisr
+    private Node startNode = new Node(); // this is the startingnode
+    private Node endNode = new Node(); // this is the ending node
+    private PathingManager manager; // gets an instance of the pathingmanager
+    private bool isUsableAgain = true; // used to check if you can use the path again
+    private Node[,,] grid; // another grid of the nodes
     void Start()
     {
         manager = PathingManager.GetInstance();
@@ -109,6 +108,7 @@ public class Pathing : MonoBehaviour
         }
         return path;
     }
+    // setting the target nodes but with tags
     public List<Node> SetTarget(GameObject player, GameObject target, List<string> tags, List<Node> path)
     {
         if (isUsableAgain)
@@ -181,6 +181,7 @@ public class Pathing : MonoBehaviour
     {
         return (pos - target).magnitude;
     }
+    // assigns the nodes the values
     private void AssignNodes(GameObject player, GameObject target)
     {
         startNode = null;
@@ -208,6 +209,7 @@ public class Pathing : MonoBehaviour
             }
         }
     }
+    // assigns the nodes the values
     private void AssignNodes(GameObject player, GameObject target, List<string> tags)
     {
         startNode = null;

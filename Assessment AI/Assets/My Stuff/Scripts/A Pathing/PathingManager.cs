@@ -5,16 +5,17 @@ using UnityEngine;
 public class PathingManager : MonoBehaviour
 {
     [HideInInspector]
-    public Node[,,] grid;
-    public Vector3 worldSize;
-    public bool showArea = false;
-    public Vector3 boxSize;
-    private static PathingManager instance;
+    public Node[,,] grid; // its a grid for all the nodes
+    public Vector3 worldSize; // will be the worldsize starting from 0 to ??
+    public bool showArea = false; // will allow you to see the area that you are working on
+    public Vector3 boxSize; // set the box size of the nodes
+    private static PathingManager instance; // gets an instance of pathmanager
     void Start()
     {
-        instance = gameObject.GetComponent<PathingManager>();
-        Setup();
+        instance = gameObject.GetComponent<PathingManager>(); // setting the instance
+        Setup(); // calling setup function
     }
+    // Used to setup stuff for start
     public void Setup()
     {
         int mx = Mathf.RoundToInt(worldSize.x);
@@ -24,6 +25,7 @@ public class PathingManager : MonoBehaviour
         CreateGrid();
         CreateConnections();
     }
+    // gets an instance of the class
     public static PathingManager GetInstance()
     {
         if (instance != null) return instance;
@@ -77,6 +79,7 @@ public class PathingManager : MonoBehaviour
             }
         }
     }
+    // just drawing stuff
     private void OnDrawGizmos()
     {
         if (showArea)

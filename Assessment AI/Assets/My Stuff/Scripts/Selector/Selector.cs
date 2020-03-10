@@ -5,25 +5,25 @@ using TMPro;
 
 public class Selector : MonoBehaviour
 {
-    public Camera myCamera;
-    public string targetTag;
-    public GameObject prefabSphere;
-    public TextMeshProUGUI healthText;
-    public TextMeshProUGUI waterText;
-    public TextMeshProUGUI foodText;
-    public TextMeshProUGUI idText;
-    public TextMeshProUGUI behaviorText;
-    public int senstivity = 4;
-    public int minFov = 15;
-    public int maxFov = 90;
-    GameObject[] targets;
-    Behaviors[] behaviors;
-    int currentTarget = 0;
-    int lastCurrentTarget = 0;
-    bool isPressed = false;
-    float fov = 0;
-    Vector3 offset;
-    Animal[] anis;
+    public Camera myCamera; // this is my camera
+    public string targetTag; // this will be wqhat the target tag is
+    public GameObject prefabSphere; // used to get the prefab for the object that will represent the nodes
+    public TextMeshProUGUI healthText; // text to display health
+    public TextMeshProUGUI waterText; // text to display water
+    public TextMeshProUGUI foodText; // text to display food
+    public TextMeshProUGUI idText; // text to display id
+    public TextMeshProUGUI behaviorText; // text to display behavior
+    public int senstivity = 4; // used for the scroll wheel
+    public int minFov = 15; // miniumn field of view
+    public int maxFov = 90; // max field of view
+    GameObject[] targets; // array of targets
+    Behaviors[] behaviors; // array of behaviors
+    int currentTarget = 0; // current target
+    int lastCurrentTarget = 0; // target before the currentone
+    bool isPressed = false; // used for a trigger for the button
+    float fov = 0; // used to have the fov
+    Vector3 offset; // offset for the camera
+    Animal[] anis; // list of all the animals
     List<AniSettings> aniSettings = new List<AniSettings>();
     void Start()
     {
@@ -33,6 +33,7 @@ public class Selector : MonoBehaviour
     {
         if(targets == null)
         {
+            // setting up the targets and other stuff
             targets = GameObject.FindGameObjectsWithTag(targetTag);
             if (targets.Length > 0) offset = myCamera.transform.position - targets[currentTarget].transform.position;
             anis = new Animal[targets.Length];
@@ -43,6 +44,7 @@ public class Selector : MonoBehaviour
                 if (targets[i].GetComponent<Behaviors>() != null) behaviors[i] = targets[i].GetComponent<Behaviors>();
             }
         }
+        // used for the keys to go to other chickens and to zoom in and out
         if(targets != null && targets.Length > 0)
         {
             lastCurrentTarget = currentTarget;
@@ -70,6 +72,7 @@ public class Selector : MonoBehaviour
             }
             if(prefabSphere != null) ShowNodes();
         }
+        // just checking the distance for the target
         for (int i = 0; i < aniSettings.Count; i++)
         {
             if (aniSettings[i].o != null && Vector3.Distance(anis[currentTarget].transform.position, aniSettings[i].o.transform.position) <= 0.5f)
@@ -78,6 +81,7 @@ public class Selector : MonoBehaviour
             }
             else aniSettings[i].render.material.SetColor("_Color", aniSettings[i].color);
         }
+        // showing the text and setting the values for it
         if (anis != null && anis.Length > 0 && anis[currentTarget] != null)
         {
             if(healthText != null)healthText.text = $"Health: {anis[currentTarget].health}";

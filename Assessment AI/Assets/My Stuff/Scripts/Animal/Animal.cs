@@ -17,39 +17,39 @@ class AniSettings
 public class Animal : MonoBehaviour
 {
     [Header("Main Settings")]
-    public float speed = 4f;
+    public float speed = 4f; // used for the speed of the animal
     [HideInInspector]
-    public Pathing instance = null;
-    public int maxHealth = 10;
-    public int maxFood = 6;
-    public int maxWater = 5;
-    public float seekWater = 3f;
-    public float seekFood = 3f;
-    public string waterTag;
-    public string foodTag;
-    public float rangeToStop = 0.5f;
-    public float resetWhenStopped = 4f;
+    public Pathing instance = null; // get an instance of pathing
+    public int maxHealth = 10; // max health
+    public int maxFood = 6; // max food
+    public int maxWater = 5; // max water
+    public float seekWater = 3f; // when to seek for the water
+    public float seekFood = 3f; // when to seek for the food
+    public string waterTag; // water taf
+    public string foodTag; // food tag
+    public float rangeToStop = 0.5f; // when to stop
+    public float resetWhenStopped = 4f; // when to reset when you stop moving
     [HideInInspector]
-    public int water;
+    public int water; // your water
     [HideInInspector]
-    public int food;
+    public int food; // your food
     [HideInInspector]
-    public int health;
+    public int health; // your health
     [HideInInspector]
-    public GameObject animalPoint;
+    public GameObject animalPoint; // used for wander when you want to get to a certain point
     [Header("Timer Settings")]
-    public float timePerLoss = 1f;
-    private float timer = 0.0f;
-    public List<Node> path = new List<Node>();
-    private int pathAdder = 0;
+    public float timePerLoss = 1f; // time per you lose water,food
+    private float timer = 0.0f; // used to time and reset it for time per loss
+    public List<Node> path = new List<Node>(); // list of all the nodes for the path
+    private int pathAdder = 0; // used to go to the next path when its time
     [HideInInspector]
-    public bool reachedPoint = false;
+    public bool reachedPoint = false; // when you reached the point towards water or food
     [HideInInspector]
-    public GameObject target;
+    public GameObject target; // current target
     [HideInInspector]
-    public int id;
-    Vector3 lastPos;
-    Vector3 startPos;
+    public int id; // id of animal
+    Vector3 lastPos; // your last position
+    Vector3 startPos; // your first position
     float timerStop;
     void Start()
     {
@@ -103,6 +103,7 @@ public class Animal : MonoBehaviour
     {
         path.Clear();
     }
+    //when the path is found
     public bool PathFound()
     {
         if (path.Count > 1)
@@ -130,18 +131,21 @@ public class Animal : MonoBehaviour
     {
         return seekFood;
     }
+    // used to find the path
     public void FindPath(GameObject target)
     {
         path.Clear();
         if (instance != null) instance.SetTarget(gameObject, target,path);
         pathAdder = 0;
     }
+    // used to find the path and ignore the tags
     public void FindPath(GameObject target, List<string> tags)
     {
         path.Clear();
         if (instance != null) instance.SetTarget(gameObject, target,tags,path);
         pathAdder = 0;
     }
+    // movetowards the next node
     public bool MoveTowards()
     {
         if(path != null && path.Count > 0)
@@ -155,6 +159,7 @@ public class Animal : MonoBehaviour
         if (pathAdder >= path.Count) return true;
         else return false;
     }
+    // draws your nodes positions
     private void OnDrawGizmos()
     {
         for(int i = 0; i < path.Count; i++)
