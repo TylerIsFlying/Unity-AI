@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Avoid
+  - Food
+  - Water
+  - Chicken
   layers:
   - Default
   - TransparentFX

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633684a816596844eb48fcb7d7be14e9, type: 3}
   m_Name: Chicken
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4397356829933656778, guid: a6b8b96e6522ef54195eaa43b052d359, type: 3}
+  prefab: {fileID: 4607882252916252590, guid: a6b8b96e6522ef54195eaa43b052d359, type: 3}
   startPosition: {x: 0, y: 1, z: 0}
-  spawnedPrefabs: 1
+  spawnedPrefabs: 4
   tags:
   - Avoid
   objects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}

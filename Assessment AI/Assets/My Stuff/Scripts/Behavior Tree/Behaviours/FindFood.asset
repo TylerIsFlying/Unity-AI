@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f085bb07bcbb1db42b73a615973a3b58, type: 3}
-  m_Name: Main
+  m_Name: FindFood
   m_EditorClassIdentifier: 
-  behaviorScript: {fileID: 0}
-  children:
-  - {fileID: 11400000, guid: 788c233b36aa20f4993a9e20ceaec0ce, type: 2}
-  - {fileID: 11400000, guid: 9cb57d96953320942845294dedd382ff, type: 2}
-  - {fileID: 11400000, guid: b7a68777eee2b16489fb3eaa9404629c, type: 2}
+  behaviorScript: {fileID: 11500000, guid: 3b977922366878546a13a0de368ad98d, type: 3}
+  children: []
   behavior: {fileID: 0}
-  parent: {fileID: 0}
+  parent: {fileID: 11400000, guid: 5512e70544eb7ee4b912f6e9d0932154, type: 2}
   checkAll: 0

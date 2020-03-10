@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,40 +32,33 @@ public class Pathing : MonoBehaviour
     public int baseValue = 1; // used for all nodes
     public int usedValue = 0; // used for both end and starting 
     public float range = 1f;
-    public bool showArea = false;
     [Header("Range Settings")]
-    public Vector3 worldSize;
-    public Vector3 boxSize;
-    private Node[,,] grid;
     private List<Node> closed = new List<Node>();
     private List<Node> open = new List<Node>();
-    private List<Node> path = new List<Node>();
     private Node startNode = new Node();
     private Node endNode = new Node();
     private int unitApart = 1;
-    private static Pathing instance;
+    private PathingManager manager;
     private bool isUsableAgain = true;
+    private Node[,,] grid;
     void Start()
     {
-        int x = Mathf.RoundToInt(worldSize.x);
-        int y = Mathf.RoundToInt(worldSize.y);
-        int z = Mathf.RoundToInt(worldSize.z);
-        grid = new Node[x,y,z];
-        instance = gameObject.GetComponent<Pathing>();
-        CreateGrid();
-        CreateConnections();
-    }
-    // gets an instance of it
-    public static Pathing GetInstance()
-    {
-        if (instance != null) return instance;
-        else return null;
+        manager = PathingManager.GetInstance();
     }
     // You can set the target for the pathing and get the path for it.
-    public List<Node> SetTarget(GameObject player, GameObject target)
+    public List<Node> SetTarget(GameObject player, GameObject target, List<Node> path)
     {
         if (isUsableAgain)
         {
+            if (grid != null) Array.Clear(grid,0,grid.Length);
+            else
+            {
+                int mx = Mathf.RoundToInt(manager.worldSize.x);
+                int my = Mathf.RoundToInt(manager.worldSize.y);
+                int mz = Mathf.RoundToInt(manager.worldSize.z);
+                grid = new Node[mx, my, mz];
+            }
+            Array.Copy(manager.grid,grid,manager.grid.Length);
             isUsableAgain = false;
             closed.Clear();
             open.Clear();
@@ -74,23 +68,40 @@ public class Pathing : MonoBehaviour
             {
                 if (!startNode.ignore && !endNode.ignore)
                 {
-                    CalPath();
-                    Node currentNode = endNode;
-                    List<Node> tmp = new List<Node>();
-                    Node t = new Node(new Vector3(player.transform.position.x, endNode.position.y, player.transform.position.z));
-                    Node w = new Node(new Vector3(target.transform.position.x, endNode.position.y, target.transform.position.z));
-                    tmp.Add(w);
-                    while (currentNode != null)
+                    // just checking if it calculated the path for it
+                    if (CalPath())
                     {
-                        tmp.Add(currentNode);
-                        currentNode = currentNode.pastNode;
-                        if (currentNode == endNode)
-                            currentNode = null;
+                        Node currentNode = endNode;
+                        Node t = new Node(new Vector3(player.transform.position.x, endNode.position.y, player.transform.position.z));
+                        Node w = new Node(new Vector3(target.transform.position.x, endNode.position.y, target.transform.position.z));
+                        path.Add(w);
+                        int counter = 0;
+                        while (currentNode != null)
+                        {
+                            path.Add(currentNode);
+                            currentNode = currentNode.pastNode;
+                            if (currentNode == endNode)
+                                currentNode = null;
+                            if (counter > grid.Length)
+                            {
+                                path.Clear();
+                                break;
+                            }
+                            counter++;
+                        }
+                        if (path.Count > 0)
+                        {
+                            path.Add(t);
+                            path.Reverse();
+                        }
+                        else
+                        {
+                            path.Add(new Node(player.transform.position));
+                        }
                     }
-                    tmp.Add(t);
-                    for (int i = tmp.Count - 1; i >= 0; i--)
+                    else
                     {
-                        path.Add(tmp[i]);
+                        path.Add(new Node(player.transform.position));
                     }
                 }
             }
@@ -98,36 +109,71 @@ public class Pathing : MonoBehaviour
         }
         return path;
     }
-    public List<Node> SetTarget(GameObject player, GameObject target, List<string> tags)
+    public List<Node> SetTarget(GameObject player, GameObject target, List<string> tags, List<Node> path)
     {
-        closed.Clear();
-        open.Clear();
-        path.Clear();
-        AssignNodes(player, target, tags);
-        if (startNode != null && endNode != null)
+        if (isUsableAgain)
         {
-            if (!startNode.ignore && !endNode.ignore)
+            isUsableAgain = false;
+            if (grid != null) Array.Clear(grid, 0, grid.Length);
+            else
             {
-                CalPath();
-                Node currentNode = endNode;
-                List<Node> tmp = new List<Node>();
-                Node t = new Node(new Vector3(player.transform.position.x, endNode.position.y, player.transform.position.z));
-                Node w = new Node(new Vector3(target.transform.position.x, endNode.position.y, target.transform.position.z));
-                tmp.Add(w);
-                while (currentNode != null)
+                int mx = Mathf.RoundToInt(manager.worldSize.x);
+                int my = Mathf.RoundToInt(manager.worldSize.y);
+                int mz = Mathf.RoundToInt(manager.worldSize.z);
+                grid = new Node[mx, my, mz];
+            }
+            if(manager.grid == null)
+            {
+                manager.Setup();
+            }
+            Array.Copy(manager.grid, grid, manager.grid.Length);
+            closed.Clear();
+            open.Clear();
+            path.Clear();
+            AssignNodes(player, target, tags);
+            if (startNode != null && endNode != null)
+            {
+                if (!startNode.ignore && !endNode.ignore)
                 {
-                    tmp.Add(currentNode);
-                    currentNode = currentNode.pastNode;
-                    if (currentNode == endNode)
-                        currentNode = null;
+                    if (CalPath())
+                    {
+                        Node currentNode = endNode;
+                        Node t = new Node(new Vector3(player.transform.position.x, endNode.position.y, player.transform.position.z));
+                        Node w = new Node(new Vector3(target.transform.position.x, endNode.position.y, target.transform.position.z));
+                        path.Add(w);
+                        int counter = 0;
+                        while (currentNode != null)
+                        {
+                            path.Add(currentNode);
+                            currentNode = currentNode.pastNode;
+                            if (currentNode == endNode)
+                                currentNode = null;
+                            if (counter > grid.Length)
+                            {
+                                path.Clear();
+                                break;
+                            }
+                            counter++;
+                        }
+                        if (path.Count > 0)
+                        {
+                            path.Add(t);
+                            path.Reverse();
+                        }
+                        else
+                        {
+                            path.Add(new Node(player.transform.position));
+                        }
+                    }
                 }
-                tmp.Add(t);
-                for (int i = tmp.Count - 1; i >= 0; i--)
+                else
                 {
-                    path.Add(tmp[i]);
+                    path.Clear();
+                    path.Add(new Node(player.transform.position));
                 }
             }
         }
+        isUsableAgain = true;
         return path;
     }
     // gets the distance
@@ -139,11 +185,11 @@ public class Pathing : MonoBehaviour
     {
         startNode = null;
         endNode = null;
-        for (int y = 0; y < worldSize.y; y++)
+        for (int y = 0; y < manager.worldSize.y; y++)
         {
-            for (int x = 0; x < worldSize.x; x++)
+            for (int x = 0; x < manager.worldSize.x; x++)
             {
-                for (int z = 0; z < worldSize.z; z++)
+                for (int z = 0; z < manager.worldSize.z; z++)
                 {
                     grid[x, y, z].g = baseValue;
                     grid[x, y, z].ignore = false;
@@ -167,13 +213,13 @@ public class Pathing : MonoBehaviour
         startNode = null;
         endNode = null;
         Collider[] colliders;
-        for (int y = 0; y < worldSize.y; y++)
+        for (int y = 0; y < manager.worldSize.y; y++)
         {
-            for (int x = 0; x < worldSize.x; x++)
+            for (int x = 0; x < manager.worldSize.x; x++)
             {
-                for (int z = 0; z < worldSize.z; z++)
+                for (int z = 0; z < manager.worldSize.z; z++)
                 {
-                    colliders = Physics.OverlapBox(grid[x,y,z].position, boxSize / 2);
+                    colliders = Physics.OverlapBox(grid[x,y,z].position, manager.boxSize/2);
                     grid[x, y, z].g = baseValue;
                     grid[x, y, z].ignore = false;
                     grid[x, y, z].pastNode = null;
@@ -204,54 +250,6 @@ public class Pathing : MonoBehaviour
             }
         }
 
-    }
-    // Sets the nodes connections
-    private void SetNodeConnection(Node n, int x, int y, int z)
-    {
-        int lx, ly, lz;
-        // doing x stuff
-        lx = x + 1;
-        if (lx >= 0 && lx < grid.Length) n.connections.Add(grid[lx, y, z]);
-        lx = x - 1;
-        if (lx >= 0 && lx < grid.Length) n.connections.Add(grid[lx, y, z]);
-        // doing y stuff
-        ly = y + 1;
-        if (ly >= 0 && ly < grid.Length) n.connections.Add(grid[x, ly, z]);
-        ly = y - 1;
-        if (ly >= 0 && ly < grid.Length) n.connections.Add(grid[x, ly, z]);
-        // doing z stuff
-        lz = z + 1;
-        if (lz >= 0 && lz < grid.Length) n.connections.Add(grid[x, y, lz]);
-        lz = z - 1;
-        if (lz >= 0 && lz < grid.Length) n.connections.Add(grid[x, y, lz]);
-    }
-    // creates the connections
-    private void CreateConnections()
-    {
-        for (int y = 0; y < worldSize.y; y++)
-        {
-            for (int x = 0; x < worldSize.x; x++)
-            {
-                for (int z = 0; z < worldSize.z; z++)
-                {
-                    SetNodeConnection(grid[x, y, z], x, y, z);
-                }
-            }
-        }
-    }
-    // sets the grid up
-    private void CreateGrid()
-    {
-        for(int y = 0; y < worldSize.y; y++)
-        {
-            for (int x = 0; x < worldSize.x; x++)
-            {
-                for (int z = 0; z < worldSize.z; z++)
-                {
-                    grid[x, y, z] = new Node(new Vector3(x,y,z));
-                }
-            }
-        }
     }
     // returns if the value is in it
     private bool isClosesd(Node value)
@@ -295,13 +293,13 @@ public class Pathing : MonoBehaviour
         }
     }
     // calculate the path
-    private void CalPath()
+    private bool CalPath()
     {
         Node currentNode = startNode;
         bool found = false;
+        int count = 0;
         while (!found)
         {
-            currentNode.h = (currentNode.position.x + endNode.position.x) + (currentNode.position.z + endNode.position.z);
             if (!isClosesd(currentNode)) closed.Add(currentNode);
             for (int i = 0; i < currentNode.connections.Count; i++)
             {
@@ -327,23 +325,12 @@ public class Pathing : MonoBehaviour
             {
                 found = true;
             }
-        }
-    }
-    private void OnDrawGizmos()
-    {
-        if (showArea)
-        {
-            for (float y = min.y; y < max.y; y++)
+            if(count > grid.Length)
             {
-                for (float x = min.x; x < max.x; x++)
-                {
-                    for (float z = min.z; z < max.z; z++)
-                    {
-                        Gizmos.color = Color.yellow;
-                        Gizmos.DrawWireCube(new Vector3(x, y, z), boxSize);
-                    }
-                }
+                return false;
             }
+            count++;
         }
+        return true;
     }
 }
