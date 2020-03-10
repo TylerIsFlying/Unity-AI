@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07bf7dd605242f2469b199a81c18e20f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabSphere: {fileID: 7023934270288322210, guid: f882330a0f78b8743a4f9ae241c5a509,
+    type: 3}
   speed: 4
   instance: {fileID: 0}
   maxHealth: 10
@@ -123,6 +125,7 @@ MonoBehaviour:
   waterTag: Water
   foodTag: Food
   rangeToStop: 0.5
+  resetWhenStopped: 4
   water: 0
   food: 0
   health: 0
@@ -130,6 +133,7 @@ MonoBehaviour:
   timePerLoss: 5
   reachedPoint: 0
   target: {fileID: 0}
+  id: 0
 --- !u!114 &6013895557995228854
 MonoBehaviour:
   m_ObjectHideFlags: 0

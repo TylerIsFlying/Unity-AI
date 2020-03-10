@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindWater : IBehavior
+[CreateAssetMenu(fileName = "Behavior Tree", menuName = "Behavior Tree/Behaviors/FindFood")]
+public class FindFood : Behavior
 {
     public override bool Execute(GameObject p, List<string> tags)
     {
         Animal ani = p.GetComponent<Animal>();
         if (ani != null)
         {
-            if (ani.GetWater() <= ani.SeekWater() && ani.GetWater() <= ani.GetFood())
+            if(ani.GetFood() <= ani.SeekFood() && ani.GetFood() <= ani.GetWater())
             {
                 if (!ani.reachedPoint || !ani.PathFound())
                 {
                     ani.reachedPoint = true;
-                    ani.target = ani.GetWaterTarget();
-                    ani.FindPath(ani.target,tags);
+                    ani.target = ani.GetFoodTarget();
+                    ani.FindPath(ani.target, tags);
+
                 }
                 if (ani.target != null)
                 {
@@ -25,7 +27,7 @@ public class FindWater : IBehavior
                     }
                     else
                     {
-                        ani.water = ani.maxWater;
+                        ani.food = ani.maxFood;
                         ani.reachedPoint = false;
                         ani.ClearPath();
                     }

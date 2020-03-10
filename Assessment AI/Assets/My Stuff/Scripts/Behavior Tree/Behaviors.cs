@@ -8,4 +8,10 @@ public class Behaviors : MonoBehaviour
     public BehaviorScript behaviorStarter = null;
     [HideInInspector]
     public BehaviorScript currentBehavior = null;
+    [HideInInspector]
+    public Animal animal;
+    public void Start()
+    {
+        animal = this.GetComponent<Animal>();
+    }
 }

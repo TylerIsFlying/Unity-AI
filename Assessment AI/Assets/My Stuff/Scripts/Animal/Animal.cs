@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+class AniSettings
+{
+    public GameObject o;
+    public Renderer render;
+    public Color color;
+    public AniSettings(GameObject o, Renderer render, Color color)
+    {
+        this.o = o;
+        this.render = render;
+        this.color = color;
+    }
+}
 public class Animal : MonoBehaviour
 {
     [Header("Main Settings")]

@@ -7,12 +7,12 @@ using UnityEditor;
 public class BehaviorScript : ScriptableObject
 {
     // stuff to setup the script
+    [Header("ID")]
+    public string id;
     [Header("Script")]
-    public MonoScript behaviorScript;
+    public Behavior behavior;
     [Header("Children")]
     public List<BehaviorScript> children = null;
-    [HideInInspector]
-    public IBehavior behavior;
     [HideInInspector]
     public BehaviorScript parent = null;
     public bool checkAll = false;
@@ -23,10 +23,6 @@ public class BehaviorScript : ScriptableObject
     // function will create a instance of the class for the behaviour
     private void CreateBehavior(BehaviorScript b)
     {
-        if (b.behaviorScript != null && b.behaviorScript.GetClass().IsSubclassOf(typeof(IBehavior)))
-        {
-            b.behavior = (IBehavior)ScriptableObject.CreateInstance(b.behaviorScript.GetClass());
-        }
     }
     // will get the children and will execute it's behaviour and set the child to the current behaviour if it's true
     public bool GetChildren(out BehaviorScript currentBehavior, GameObject o)
@@ -76,9 +72,7 @@ public class BehaviorScript : ScriptableObject
         {
             foreach (BehaviorScript child in children)
             {
-                if (child.behavior == null)
-                    CreateBehavior(child);
-                if (child.behavior != null && child.behavior.Execute(o,tags))
+                if (child.behavior != null && child.behavior.Execute(o, tags))
                 {
                     currentBehavior = child;
                     child.parent = this;

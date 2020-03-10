@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f085bb07bcbb1db42b73a615973a3b58, type: 3}
   m_Name: FindFood
   m_EditorClassIdentifier: 
-  behaviorScript: {fileID: 11500000, guid: 3b977922366878546a13a0de368ad98d, type: 3}
+  id: Food
+  behavior: {fileID: 11400000, guid: cddac1174dd3d90458a332c6e2767f76, type: 2}
   children: []
-  behavior: {fileID: 0}
   parent: {fileID: 11400000, guid: 5512e70544eb7ee4b912f6e9d0932154, type: 2}
   checkAll: 0

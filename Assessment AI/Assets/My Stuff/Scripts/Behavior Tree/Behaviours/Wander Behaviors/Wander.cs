@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wander : IBehavior
+[CreateAssetMenu(fileName = "Behavior Tree", menuName = "Behavior Tree/Behaviors/Wander")]
+public class Wander : Behavior
 {
     // Getting a new location
     public void NewLoc(Animal p, List<string> tags)
